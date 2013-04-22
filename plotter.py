@@ -85,3 +85,4 @@ if __name__ == '__main__':
     bigframe = pd.DataFrame(frames)
     print(bigframe)
     bigframe.plot(kind='bar')
+    bigframe.ix[4].plot(kind='bar')
