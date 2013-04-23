@@ -34,6 +34,14 @@ def runtimes(ffp, ALGNAME, scale, log_data=False,):
                                    title='{0} raw times at scale {1}'.format(ALGNAME, scale))
     ax.set_ylabel('seconds')
 
+def alternate_speedups(ALGNAME):
+    lf  = load_algorithm(ALGNAME)
+    df  = lf.set_index('p')
+    seq = (df['t_p'].ix[0]/df['t_p'])
+    seq.name = ALGNAME
+    seq.plot(style=linstyl)
+    return seq
+
 def speedups_plot(ALGS, scale):
     """Compare the algorithms by their speedups on the same sized data
 
@@ -61,18 +69,20 @@ def speedups_plot(ALGS, scale):
     ax.set_title('algorithms at scale {0}'.format(scale))
 
 if __name__ == '__main__':
-    DATA_DIR = u'/home/users/jfairbanks/Projects/hpc6220/term_proj/data/'
-    ALGS = ['inner_product_test', 'pack_test',
-            'reduction_test',  'scan_test',]
+    DATA_DIR = u'/home/users/jfairbanks/Projects/hpc6220/term_proj/mirasol_data/'
+    ALGS = ['inner_product_test',
+            'pack_test',
+            'reduction_test',
+            'scan_test',]
 
     linstyl = 'o-'
     log_data = False
-    scale = 20
+    scale = 25
     scalad = dict()
     print("fixing a scale of problem, we examine strong scaling")
     #compute speedups
     speedups_plot(ALGS, scale)
-
+    alternate_speedups("big_inner_product_test")
     frames = dict()
     for ALGNAME in ALGS:
         df = load_algorithm(ALGNAME)
